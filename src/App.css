@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+main{
+  display: flex;
+  flex-direction: row;
+}
+
+p{
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
