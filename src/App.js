@@ -51,6 +51,8 @@ const DivCarrinho = styled.div`
     height: 500px;
     border: 1px solid black;
 `
+const soma = 0
+let total = 0
 
 export default class App extends React.Component {
 
@@ -84,11 +86,23 @@ selecionarProduto = (id) =>{
          carrinho: [...this.state.carrinho, p]
        })
     }
+    console.log('aqui pai', this.state.carrinho.length)
+    soma = this.state.carrinho.length
+    console.log(soma)
   })
  console.log(this.state.carrinho)
 }
 
+// addProduto = () =>{
+//     const novoarray = [...this.state.carrinho]
+//     console.log(novoarray)
+//     const index = this.state.carrinho.findIndex((item) => item.carrinho.id === carrinho.id)
+//     console.log(index)
+// }
+
   render() {
+    const tamanhoProdutos = this.state.produtos.length
+
     return (
       <main>
         <DivFiltro>
@@ -99,6 +113,7 @@ selecionarProduto = (id) =>{
           <InputProduto type="text"/>
         </DivFiltro>
 
+        <h3>Quantidade {tamanhoProdutos}</h3>
         {this.state.produtos.map(p=>{
                     return (
                         <DivProdutos>
@@ -113,11 +128,16 @@ selecionarProduto = (id) =>{
                 })}
                 {/* <Carrinho/> */}
                 <DivCarrinho>
+                  
                 {this.state.carrinho.map(x=>{
                     return (
+                      
+                      <div>
                         
-                          <p>{x.nome}</p>
-                        
+                        <p>{x.id}</p>
+                        <p>Produto: {x.nome}</p>
+                        <p>Valor: {x.value}</p>
+                      </div>
                     )
                 })}
                 </DivCarrinho>
