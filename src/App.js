@@ -4,35 +4,32 @@ import './App.css';
 import styled from 'styled-components'
 
 const DivFiltro = styled.div`
-  width: 300px;
+  width: 50%;
   height: 500px;
   border: 1px solid black;
+  padding: 10px;
 `
-
 const InputMinimo = styled.input`
-  width: 100px;
+  width: 200px;
   height: 10px;
 `
-
-const InputProduto = styled.input`
-  width: 100px;
+const InputBuscarProduto = styled.input`
+  width: 200px;
   height: 10px;
 `
-
 const DivProdutos = styled.div`
   width: 100%;
   padding: 20px;
 `
-
 const CaixaImagem = styled.div`
   width: 200px;
   height: 350px;
-  border: 1px solid black;
+  border: 1px dotted black;
+  padding: 10px;
 `
-
 const BotaoCompra = styled.button`
   width: 200px;
-  height: 20px;
+  height: 40px;
   background-color: black;
   color: white;
 `
@@ -94,7 +91,7 @@ export default class App extends React.Component {
     },
     ], 
     carrinho: [],
-    carrinhoMostrar: true
+    carrinhoMostrar: false
   }
 
   excluirItem = (item) => {
@@ -180,11 +177,13 @@ export default class App extends React.Component {
       <main>
         <BotaoComprar onClick={this.aoClicarNoCarrinho}/>
         <DivFiltro>
-          <h3>Filtros:</h3>
-          <label>Valor minimo</label>
-          <InputMinimo type="number" value="teste" />
+          <h3>FILTROS:</h3>
+          <label>Valor Minimo</label>
+          <InputMinimo type="number"/>
+          <label>Valor Máximo:</label>
+          <InputMinimo type="number"/>
           <label>Buscar Produto</label>
-          <InputProduto type="text" />
+          <InputBuscarProduto type="text" />
         </DivFiltro>
 
         <h3>Quantidade {tamanhoProdutos}</h3>
@@ -203,10 +202,13 @@ export default class App extends React.Component {
             </DivProdutos>
           )
         })}
-        <DivCarrinho>
-          {exibirCarrinho()}
-          <p>Total: {this.totalCarrinho()}</p>
-        </DivCarrinho>
+        {this.state.carrinhoMostrar&&(
+          <DivCarrinho>
+            {exibirCarrinho()}
+            <p>Total: {this.totalCarrinho()}</p>
+          </DivCarrinho>
+        )}
+
       </main>
     )
   }
