@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './App.css';
 import styled from 'styled-components'
@@ -57,103 +58,135 @@ let total = 0
 export default class App extends React.Component {
 
   state = {
-    carrinho: [],
     produtos: [{
       id: 1,
       nome: "teste1",
       value: 85,
+      quantidade: 0,
+      subTotal:0,
       imageUrl: "https://picsum.photos/id/3/200/200"
     },
-  {
-    id: 2,
+    {
+      id: 2,
       nome: "teste2",
       value: 85,
+      quantidade: 0,
+      subTotal:0,
       imageUrl: "https://picsum.photos/id/2/200/200"
-  },
-  {
-    id: 3,
-    nome: "teste3",
-    value: 150,
-    imageUrl: "https://picsum.photos/id/5/200/200"
-  }
-]
+    },
+    {
+      id: 3,
+      nome: "teste3",
+      value: 150,
+      quantidade: 0,
+      subTotal:0,
+      imageUrl: "https://picsum.photos/id/5/200/200"
+    },
+    ], 
+    carrinho: [],
   }
 
-selecionarProduto = (id) =>{
-  const item = this.state.produtos.map((p)=>{
-    if(id===p.id){
-       this.setState({
-         carrinho: [...this.state.carrinho, p]
-       })
+  excluirItem = (item) => {
+    const listaProdutos = this.state.carrinho.filter((p) => {
+      return p.id !== item.id;
+    });
+
+    this.setState({ carrinho: listaProdutos });
+  };
+
+
+  selecionarProduto = (id) => {
+
+    let novoCarrinho = [...this.state.carrinho]
+
+    const existeProduto = this.state.produtos.find((p) => {
+      if (id === p.id) {
+        return true
+      }
+      return false
+    })
+
+    const existeProdutoNoCarrinho = novoCarrinho.find((item) => {
+      if (id === item.id) {
+        return true
+      }
+      return false
+    })
+
+    if (existeProdutoNoCarrinho === undefined) {
+      const novoProduto = {
+        ...existeProduto,
+        quantidade: 1,
+        subTotal: existeProduto.value,
+      }
+      novoCarrinho = [novoProduto, ...novoCarrinho]; 
+    } else {
+      novoCarrinho = novoCarrinho.map((item) => {
+        if (id === item.id) {
+          return {
+            ...item,
+            quantidade: item.quantidade + 1, 
+            subTotal: item.value + item.subTotal,
+          }
+        } else {
+          return item
+        }
+      });
     }
-    console.log('aqui pai', this.state.carrinho.length)
-    soma = this.state.carrinho.length
-    console.log(soma)
-  })
- console.log(this.state.carrinho)
-}
+    this.setState({ carrinho: novoCarrinho })
+  }
 
-
-// addProduto = () =>{
-//     const novoarray = [...this.state.carrinho]
-//     console.log(novoarray)
-//     const index = this.state.carrinho.findIndex((item) => item.carrinho.id === carrinho.id)
-//     console.log(index)
-// }
-
-totalCarrinho=()=>{
-  let total=0
-  this.state.carrinho.map((item) =>{
-    total+=Number(item.value)
-    console.log(item.value)
-  })
-  return total
-  
-  
-}
+  totalCarrinho = () => {
+    let total = 0
+    this.state.carrinho.map((item) => {
+      total += item.subTotal
+    })
+    return total
+  }
   render() {
     const tamanhoProdutos = this.state.produtos.length
 
+    const exibirCarrinho = () => {
+      const itensDoCarrinho = this.state.carrinho.map((p) => {
+        return (
+          <div>
+            <span> {p.quantidade} </span>
+            <span> {p.nome} </span>
+            <span>R$ {p.subTotal} </span>
+            <span onClick={()=>{this.excluirItem(p)}}> x </span>
+          </div>
+        )
+      })
+      return itensDoCarrinho;
+    }
     return (
       <main>
         <DivFiltro>
           <h3>Filtros:</h3>
           <label>Valor minimo</label>
-          <InputMinimo type="number" value="teste"/>
+          <InputMinimo type="number" value="teste" />
           <label>Buscar Produto</label>
-          <InputProduto type="text"/>
+          <InputProduto type="text" />
         </DivFiltro>
 
         <h3>Quantidade {tamanhoProdutos}</h3>
-        {this.state.produtos.map(p=>{
-                    return (
-                      
-                        <DivProdutos>
-                          <CaixaImagem>
-                          <img src={p.imageUrl}/>
-                          <p>{p.nome}</p>
-                          <p>R${p.value}</p>
-                          <BotaoCompra onClick={()=>this.selecionarProduto(p.id)}>Adicionar carinho</BotaoCompra>
-                          </CaixaImagem>
-                        </DivProdutos>
-                    )
-                })}
-                {/* <Carrinho/> */}
-                <DivCarrinho>
-                  
-                {this.state.carrinho.map(x=>{
-                    return (
-                      
-                      <div>
-                        
-                        <p>{x.id}</p>
-                        <p>Produto: {x.nome}</p>
-                        <p>Valor: {x.value}</p>
-                      </div>
-                    )
-                })}
-                <p>Total: {this.totalCarrinho()}</p>
-                </DivCarrinho>
+        {this.state.produtos.map(p => {
+          return (
+
+            <DivProdutos>
+              <CaixaImagem>
+                <img src={p.imageUrl} />
+                <p>{p.nome}</p>
+                <p>R${p.value}</p>
+                <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar carinho</BotaoCompra>
+              </CaixaImagem>
+            </DivProdutos>
+          )
+        })}
+        <DivCarrinho>
+          {exibirCarrinho()}
+          <p>Total: {this.totalCarrinho()}</p>
+        </DivCarrinho>
       </main>
     )
   }
