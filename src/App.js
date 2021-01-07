@@ -62,7 +62,34 @@ export default class App extends React.Component {
     },
     ], 
     carrinho: [],
-    carrinhoMostrar: false
+    carrinhoMostrar: false,
+    valorMinInput: 0,
+    valorMaxInput: Infinity,
+    valorBuscaInput: "",
+  }
+  onChangeValorMin = (e) => {
+    this.setState({
+      valorMinInput: Number(e.target.value)
+    })
+    console.log(this.state.valorMinInput)
+  }
+  
+  onChangeValorMax = (e) => {
+    this.setState({
+      valorMaxInput: Number(e.target.value)
+    });
+    console.log(this.state.valorMaxInput)
+  }
+
+  onChangeValorBusca = (e) => {
+    this.setState({
+      valorBuscaInput: e.target.value
+    });
+  }
+  onChangeFiltro = (e) => {
+    this.setState({
+      filtro: e.target.value
+    });
   }
 
   excluirItem = (item) => {
@@ -129,6 +156,7 @@ export default class App extends React.Component {
   render() {
     const tamanhoProdutos = this.state.produtos.length
 
+
     // const exibirCarrinho = () => {
     //   const itensDoCarrinho = this.state.carrinho.map((p) => {
     //     return (
@@ -143,33 +171,78 @@ export default class App extends React.Component {
     //   })
     //   return itensDoCarrinho;
     // }
+
+    const exibirCarrinho = () => {
+      const itensDoCarrinho = this.state.carrinho.map((p) => {
+        return (
+          <CaixaProduto>
+            <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
+            <p><strong>Produto:</strong>{p.nome}</p>
+            <p><strong>Total:</strong>R$ {p.subTotal} </p>
+            <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
+          </CaixaProduto>
+
+        )
+      })
+      return itensDoCarrinho;
+    }
+
+    const filtrarProdutos = () => {
+      let listaFiltrada
+      if (this.state.valorBuscaInput !== "") {
+        listaFiltrada = this.state.produtos.filter((p) => {
+          const novoNome = p.nome.toLowerCase();
+          const input = this.state.valorBuscaInput.toLowerCase();
+          if (novoNome.includes(input)) {
+            return true
+          } else {
+            return false
+          }
+        })
+      } else if ((this.state.valorMaxInput !== "") || (this.state.valorMinInput !== "")) {
+        listaFiltrada = this.state.produtos.filter((p) => {
+          if ((p.value >= this.state.valorMinInput) && (p.value <= this.state.valorMaxInput)) {
+            return true
+          } else {
+            return false
+          }
+        })
+  
+      } else {
+        listaFiltrada = this.state.produtos
+  
+      }
+      console.log(listaFiltrada)
+      return listaFiltrada
+    };
+  
+
     return (
       <main>
         {/* <BotaoComprar onClick={this.aoClicarNoCarrinho}/> */}
         {/* <DivFiltro>
           <h3>FILTROS:</h3>
           <label>Valor Minimo</label>
-          <InputMinimo type="number"/>
+          <InputMinimo type="number"  value={this.state.valorMinInput} onChange={this.onChangeValorMin}/>
           <label>Valor Máximo:</label>
-          <InputMinimo type="number"/>
+          <InputMinimo type="number" value={this.state.valorMaxInput} onChange={this.onChangeValorMax}/>
           <label>Buscar Produto</label>
-          <InputBuscarProduto type="text" />
-        </DivFiltro> */}
+
+          <InputBuscarProduto type="text" value={this.state.valorBuscaInput} onChange={this.onChangeValorBusca}/>
+        </DivFiltro>
 
         <h3>Quantidade {tamanhoProdutos}</h3>
-        {/* {this.state.produtos.map(p => {
+        {filtrarProdutos().map(p => {
           return (
 
-            // <DivProdutos>
-            //   <CaixaImagem>
-            //     <img src={p.imageUrl} />
-            //     <p>{p.nome}</p>
-            //     <p>R${p.value}</p>
-
-            //     <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
-
-            //   </CaixaImagem>
-            // </DivProdutos>
+            <DivProdutos>
+              <CaixaImagem>
+                <img src={p.imageUrl} />
+                <p>{p.nome}</p>
+                <p>R${p.value}</p>
+                <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar carinho</BotaoCompra>
+              </CaixaImagem>
+            </DivProdutos>
           )
         })} */}
         {/* {this.state.carrinhoMostrar&&(
