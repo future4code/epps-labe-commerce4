@@ -1,37 +1,9 @@
 import React from 'react';
 import './App.css';
-import styled from 'styled-components'
-
-const DivFiltro = styled.div`
-  width: 50%;
-  height: 500px;
-  border: 1px solid black;
-  padding: 10px;
-`
-const InputMinimo = styled.input`
-  width: 200px;
-  height: 10px;
-`
-const InputBuscarProduto = styled.input`
-  width: 200px;
-  height: 10px;
-`
-const DivProdutos = styled.div`
-  width: 100%;
-  padding: 20px;
-`
-const CaixaImagem = styled.div`
-  width: 200px;
-  height: 350px;
-  border: 1px dotted black;
-  padding: 10px;
-`
-const BotaoCompra = styled.button`
-  width: 200px;
-  height: 40px;
-  background-color: black;
-  color: white;
-`
+import styled from 'styled-components';
+import Carrinho from './components/Carrinho';
+import Produtos from './components/Produtos';
+import Filtro from './components/Filtro'
 
 const DivCarrinho = styled.div`
     display: flex;
@@ -129,7 +101,6 @@ export default class App extends React.Component {
   };
 
 
-
   aoClicarNoCarrinho = () => {
     this.setState({ carrinhoMostrar: !this.state.carrinhoMostrar });
   };
@@ -185,6 +156,22 @@ export default class App extends React.Component {
   render() {
     const tamanhoProdutos = this.state.produtos.length
 
+
+    // const exibirCarrinho = () => {
+    //   const itensDoCarrinho = this.state.carrinho.map((p) => {
+    //     return (
+    //       // <CaixaProduto>
+    //       //   <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
+    //       //   <p><strong>Produto:</strong>{p.nome}</p>
+    //       //   <p><strong>Total:</strong>R$ {p.subTotal} </p>
+    //       //   <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
+    //       // </CaixaProduto>
+
+    //     )
+    //   })
+    //   return itensDoCarrinho;
+    // }
+
     const exibirCarrinho = () => {
       const itensDoCarrinho = this.state.carrinho.map((p) => {
         return (
@@ -229,16 +216,18 @@ export default class App extends React.Component {
       return listaFiltrada
     };
   
+
     return (
       <main>
-        <BotaoComprar onClick={this.aoClicarNoCarrinho}/>
-        <DivFiltro>
+        {/* <BotaoComprar onClick={this.aoClicarNoCarrinho}/> */}
+        {/* <DivFiltro>
           <h3>FILTROS:</h3>
           <label>Valor Minimo</label>
           <InputMinimo type="number"  value={this.state.valorMinInput} onChange={this.onChangeValorMin}/>
           <label>Valor Máximo:</label>
           <InputMinimo type="number" value={this.state.valorMaxInput} onChange={this.onChangeValorMax}/>
           <label>Buscar Produto</label>
+
           <InputBuscarProduto type="text" value={this.state.valorBuscaInput} onChange={this.onChangeValorBusca}/>
         </DivFiltro>
 
@@ -255,14 +244,19 @@ export default class App extends React.Component {
               </CaixaImagem>
             </DivProdutos>
           )
-        })}
-        {this.state.carrinhoMostrar&&(
+        })} */}
+        {/* {this.state.carrinhoMostrar&&(
           <DivCarrinho>
             {exibirCarrinho()}
             <p>Total: {this.totalCarrinho()}</p>
           </DivCarrinho>
-        )}
-
+        )} */}
+      <Carrinho/>
+      <Produtos
+          produtos={this.state.produtos}
+          selecionarProduto={this.selecionarProduto}
+      />
+      <Filtro/>
       </main>
     )
   }
