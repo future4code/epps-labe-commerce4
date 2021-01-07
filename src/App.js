@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './App.css';
 import styled from 'styled-components'
@@ -105,6 +106,7 @@ export default class App extends React.Component {
   };
 
 
+
   aoClicarNoCarrinho = () => {
     this.setState({ carrinhoMostrar: !this.state.carrinhoMostrar });
   };
@@ -169,6 +171,7 @@ export default class App extends React.Component {
             <p><strong>Total:</strong>R$ {p.subTotal} </p>
             <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
           </CaixaProduto>
+
         )
       })
       return itensDoCarrinho;
@@ -193,7 +196,9 @@ export default class App extends React.Component {
                 <img src={p.imageUrl} />
                 <p>{p.nome}</p>
                 <p>R${p.value}</p>
+
                 <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
+
               </CaixaImagem>
             </DivProdutos>
           )
