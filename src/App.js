@@ -2,13 +2,7 @@
 import React from 'react';
 import './App.css';
 import styled from 'styled-components'
-import Carrinho from './components/Carrinho'
 
-const DivMain = styled.div`
-    width: 300px;
-    height: 300px;
-    border: 1px solid black;
-  `
 const DivFiltro = styled.div`
   width: 300px;
   height: 500px;
@@ -34,7 +28,6 @@ const CaixaImagem = styled.div`
   width: 200px;
   height: 350px;
   border: 1px solid black;
-
 `
 
 const BotaoCompra = styled.button`
@@ -49,11 +42,28 @@ const DivCarrinho = styled.div`
     flex-direction: column;
     margin-top: 10px;
     width: 800px;
-    height: 500px;
-    border: 1px solid black;
+    height: 600px;
+    border: 1px dotted black;
 `
-const soma = 0
-let total = 0
+const DeletarItem =  styled.button`
+  width: 50px;
+  height: 20px;
+`
+
+const CaixaProduto = styled.div`
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  border-style: dotted;
+  border-width: 0px 0px 2px 0px; /* 25px top, 10px right, 4px bottom and 35px left */
+`
+
+const BotaoComprar = styled.div`
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  background-color: red;
+`
 
 export default class App extends React.Component {
 
@@ -84,6 +94,7 @@ export default class App extends React.Component {
     },
     ], 
     carrinho: [],
+    carrinhoMostrar: true
   }
 
   excluirItem = (item) => {
@@ -94,6 +105,11 @@ export default class App extends React.Component {
     this.setState({ carrinho: listaProdutos });
   };
 
+
+
+  aoClicarNoCarrinho = () => {
+    this.setState({ carrinhoMostrar: !this.state.carrinhoMostrar });
+  };
 
   selecionarProduto = (id) => {
 
@@ -149,18 +165,20 @@ export default class App extends React.Component {
     const exibirCarrinho = () => {
       const itensDoCarrinho = this.state.carrinho.map((p) => {
         return (
-          <div>
-            <span> {p.quantidade} </span>
-            <span> {p.nome} </span>
-            <span>R$ {p.subTotal} </span>
-            <span onClick={()=>{this.excluirItem(p)}}> x </span>
-          </div>
+          <CaixaProduto>
+            <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
+            <p><strong>Produto:</strong>{p.nome}</p>
+            <p><strong>Total:</strong>R$ {p.subTotal} </p>
+            <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
+          </CaixaProduto>
+
         )
       })
       return itensDoCarrinho;
     }
     return (
       <main>
+        <BotaoComprar onClick={this.aoClicarNoCarrinho}/>
         <DivFiltro>
           <h3>Filtros:</h3>
           <label>Valor minimo</label>
@@ -178,7 +196,9 @@ export default class App extends React.Component {
                 <img src={p.imageUrl} />
                 <p>{p.nome}</p>
                 <p>R${p.value}</p>
-                <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar carinho</BotaoCompra>
+
+                <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
+
               </CaixaImagem>
             </DivProdutos>
           )
