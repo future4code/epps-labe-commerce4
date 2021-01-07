@@ -185,7 +185,7 @@ export default class App extends React.Component {
           <label>Valor Máximo:</label>
           <InputMinimo type="number"/>
           <label>Buscar Produto</label>
-          <InputBuscarProduto type="text" />
+          <InputB type="text" />
         </DivFiltro>
 
 
