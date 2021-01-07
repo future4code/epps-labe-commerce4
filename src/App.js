@@ -93,6 +93,7 @@ selecionarProduto = (id) =>{
  console.log(this.state.carrinho)
 }
 
+
 // addProduto = () =>{
 //     const novoarray = [...this.state.carrinho]
 //     console.log(novoarray)
@@ -100,6 +101,16 @@ selecionarProduto = (id) =>{
 //     console.log(index)
 // }
 
+totalCarrinho=()=>{
+  let total=0
+  this.state.carrinho.map((item) =>{
+    total+=Number(item.value)
+    console.log(item.value)
+  })
+  return total
+  
+  
+}
   render() {
     const tamanhoProdutos = this.state.produtos.length
 
@@ -116,6 +127,7 @@ selecionarProduto = (id) =>{
         <h3>Quantidade {tamanhoProdutos}</h3>
         {this.state.produtos.map(p=>{
                     return (
+                      
                         <DivProdutos>
                           <CaixaImagem>
                           <img src={p.imageUrl}/>
@@ -140,6 +152,7 @@ selecionarProduto = (id) =>{
                       </div>
                     )
                 })}
+                <p>Total: {this.totalCarrinho()}</p>
                 </DivCarrinho>
       </main>
     )
