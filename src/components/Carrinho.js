@@ -1,26 +1,38 @@
-// import React from 'react';
-// import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
+const DivCarrinho = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 800px;
+    height: 600px;
+    border: 1px dotted black;
+`
 
+const DeletarItem = styled.button`
+  width: 50px;
+  height: 20px;
+`
 
-// const DivCarrinho = styled.div`
-//     margin-top: 10px;
-//     width: 800px;
-//     height: 500px;
-//     border: 1px solid black;
-// `
+const CaixaProduto = styled.div`
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  border-style: dotted;
+  border-width: 0px 0px 2px 0px; /* 25px top, 10px right, 4px bottom and 35px left */
+`
 
-// export default class Carrinho extends React.Component{
-//     render(){
-//         return(
-//             {this.props.selecionaProduto()}
-//             <DivCarrinho>
-//                 {this.state.carrinho.map(x=>{
-//                     return (
-//                           <p>{x.nome}</p>
-//                     )
-//                 })}
-//         )
-//     }
+class Carrinho extends React.Component {
+    render() {
+        return (
+            <div>
+                <DivCarrinho>
+                </DivCarrinho>
+            </div>
 
-// }
+        )
+    }
+}
+
+export default Carrinho;

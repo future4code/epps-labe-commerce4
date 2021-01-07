@@ -1,42 +1,9 @@
 import React from 'react';
 import './App.css';
-import styled from 'styled-components'
-
-const DivFiltro = styled.div`
-  width: 50%;
-  height: 500px;
-  border: 1px solid black;
-  padding: 10px;
-`
-
-const InputMinimo = styled.input`
-  width: 200px;
-  height: 10px;
-`
-
-const InputBuscarProduto = styled.input`
-  width: 200px;
-  height: 10px;
-`
-
-const DivProdutos = styled.div`
-  width: 100%;
-  padding: 20px;
-`
-
-const CaixaImagem = styled.div`
-  width: 200px;
-  height: 350px;
-  border: 1px dotted black;
-  padding: 10px;
-`
-
-const BotaoCompra = styled.button`
-  width: 200px;
-  height: 40px;
-  background-color: black;
-  color: white;
-`
+import styled from 'styled-components';
+import Carrinho from './components/Carrinho';
+import Produtos from './components/Produtos';
+import Filtro from './components/Filtro'
 
 const DivCarrinho = styled.div`
     display: flex;
@@ -46,7 +13,7 @@ const DivCarrinho = styled.div`
     height: 600px;
     border: 1px dotted black;
 `
-const DeletarItem = styled.button`
+const DeletarItem =  styled.button`
   width: 50px;
   height: 20px;
 `
@@ -59,12 +26,12 @@ const CaixaProduto = styled.div`
   border-width: 0px 0px 2px 0px; /* 25px top, 10px right, 4px bottom and 35px left */
 `
 
-// const BotaoComprar = styled.div`
-//   width: 100px;
-//   height: 100px;
-//   border: 1px solid black;
-//   background-color: red;
-// `
+const BotaoComprar = styled.div`
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  background-color: red;
+`
 
 export default class App extends React.Component {
 
@@ -74,7 +41,7 @@ export default class App extends React.Component {
       nome: "teste1",
       value: 85,
       quantidade: 0,
-      subTotal: 0,
+      subTotal:0,
       imageUrl: "https://picsum.photos/id/3/200/200"
     },
     {
@@ -82,7 +49,7 @@ export default class App extends React.Component {
       nome: "teste2",
       value: 85,
       quantidade: 0,
-      subTotal: 0,
+      subTotal:0,
       imageUrl: "https://picsum.photos/id/2/200/200"
     },
     {
@@ -90,12 +57,12 @@ export default class App extends React.Component {
       nome: "teste3",
       value: 150,
       quantidade: 0,
-      subTotal: 0,
+      subTotal:0,
       imageUrl: "https://picsum.photos/id/5/200/200"
     },
-    ],
+    ], 
     carrinho: [],
-    carrinhoMostrar: true
+    carrinhoMostrar: false
   }
 
   excluirItem = (item) => {
@@ -135,13 +102,13 @@ export default class App extends React.Component {
         quantidade: 1,
         subTotal: existeProduto.value,
       }
-      novoCarrinho = [novoProduto, ...novoCarrinho];
+      novoCarrinho = [novoProduto, ...novoCarrinho]; 
     } else {
       novoCarrinho = novoCarrinho.map((item) => {
         if (id === item.id) {
           return {
             ...item,
-            quantidade: item.quantidade + 1,
+            quantidade: item.quantidade + 1, 
             subTotal: item.value + item.subTotal,
           }
         } else {
@@ -162,50 +129,61 @@ export default class App extends React.Component {
   render() {
     const tamanhoProdutos = this.state.produtos.length
 
-    const exibirCarrinho = () => {
-      const itensDoCarrinho = this.state.carrinho.map((p) => {
-        return (
-          <CaixaProduto>
-            <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
-            <p><strong>Produto:</strong>{p.nome}</p>
-            <p><strong>Total:</strong>R$ {p.subTotal} </p>
-            <p onClick={() => { this.excluirItem(p) }}> <DeletarItem>Deletar</DeletarItem> </p>
-          </CaixaProduto>
-        )
-      })
-      return itensDoCarrinho;
-    }
+    // const exibirCarrinho = () => {
+    //   const itensDoCarrinho = this.state.carrinho.map((p) => {
+    //     return (
+    //       // <CaixaProduto>
+    //       //   <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
+    //       //   <p><strong>Produto:</strong>{p.nome}</p>
+    //       //   <p><strong>Total:</strong>R$ {p.subTotal} </p>
+    //       //   <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
+    //       // </CaixaProduto>
+
+    //     )
+    //   })
+    //   return itensDoCarrinho;
+    // }
     return (
       <main>
         {/* <BotaoComprar onClick={this.aoClicarNoCarrinho}/> */}
-        <DivFiltro>
+        {/* <DivFiltro>
           <h3>FILTROS:</h3>
           <label>Valor Minimo</label>
           <InputMinimo type="number"/>
           <label>Valor Máximo:</label>
           <InputMinimo type="number"/>
           <label>Buscar Produto</label>
-          <InputB type="text" />
-        </DivFiltro>
+          <InputBuscarProduto type="text" />
+        </DivFiltro> */}
 
-
-        {this.state.produtos.map(p => {
+        <h3>Quantidade {tamanhoProdutos}</h3>
+        {/* {this.state.produtos.map(p => {
           return (
 
-            <DivProdutos>
-              <CaixaImagem>
-                <img src={p.imageUrl} />
-                <p>{p.nome}</p>
-                <p>R${p.value}</p>
-                <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
-              </CaixaImagem>
-            </DivProdutos>
+            // <DivProdutos>
+            //   <CaixaImagem>
+            //     <img src={p.imageUrl} />
+            //     <p>{p.nome}</p>
+            //     <p>R${p.value}</p>
+
+            //     <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
+
+            //   </CaixaImagem>
+            // </DivProdutos>
           )
-        })}
-        <DivCarrinho>
-          {exibirCarrinho()}
-          <p>Total: {this.totalCarrinho()}</p>
-        </DivCarrinho>
+        })} */}
+        {/* {this.state.carrinhoMostrar&&(
+          <DivCarrinho>
+            {exibirCarrinho()}
+            <p>Total: {this.totalCarrinho()}</p>
+          </DivCarrinho>
+        )} */}
+      <Carrinho/>
+      <Produtos
+          produtos={this.state.produtos}
+          selecionarProduto={this.selecionarProduto}
+      />
+      <Filtro/>
       </main>
     )
   }
