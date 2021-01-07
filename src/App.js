@@ -1,21 +1,21 @@
-
 import React from 'react';
 import './App.css';
 import styled from 'styled-components'
 
 const DivFiltro = styled.div`
-  width: 300px;
+  width: 50%;
   height: 500px;
   border: 1px solid black;
+  padding: 10px;
 `
 
 const InputMinimo = styled.input`
-  width: 100px;
+  width: 200px;
   height: 10px;
 `
 
-const InputProduto = styled.input`
-  width: 100px;
+const InputBuscarProduto = styled.input`
+  width: 200px;
   height: 10px;
 `
 
@@ -27,12 +27,13 @@ const DivProdutos = styled.div`
 const CaixaImagem = styled.div`
   width: 200px;
   height: 350px;
-  border: 1px solid black;
+  border: 1px dotted black;
+  padding: 10px;
 `
 
 const BotaoCompra = styled.button`
   width: 200px;
-  height: 20px;
+  height: 40px;
   background-color: black;
   color: white;
 `
@@ -45,7 +46,7 @@ const DivCarrinho = styled.div`
     height: 600px;
     border: 1px dotted black;
 `
-const DeletarItem =  styled.button`
+const DeletarItem = styled.button`
   width: 50px;
   height: 20px;
 `
@@ -58,12 +59,12 @@ const CaixaProduto = styled.div`
   border-width: 0px 0px 2px 0px; /* 25px top, 10px right, 4px bottom and 35px left */
 `
 
-const BotaoComprar = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  background-color: red;
-`
+// const BotaoComprar = styled.div`
+//   width: 100px;
+//   height: 100px;
+//   border: 1px solid black;
+//   background-color: red;
+// `
 
 export default class App extends React.Component {
 
@@ -73,7 +74,7 @@ export default class App extends React.Component {
       nome: "teste1",
       value: 85,
       quantidade: 0,
-      subTotal:0,
+      subTotal: 0,
       imageUrl: "https://picsum.photos/id/3/200/200"
     },
     {
@@ -81,7 +82,7 @@ export default class App extends React.Component {
       nome: "teste2",
       value: 85,
       quantidade: 0,
-      subTotal:0,
+      subTotal: 0,
       imageUrl: "https://picsum.photos/id/2/200/200"
     },
     {
@@ -89,10 +90,10 @@ export default class App extends React.Component {
       nome: "teste3",
       value: 150,
       quantidade: 0,
-      subTotal:0,
+      subTotal: 0,
       imageUrl: "https://picsum.photos/id/5/200/200"
     },
-    ], 
+    ],
     carrinho: [],
     carrinhoMostrar: true
   }
@@ -104,7 +105,6 @@ export default class App extends React.Component {
 
     this.setState({ carrinho: listaProdutos });
   };
-
 
 
   aoClicarNoCarrinho = () => {
@@ -135,13 +135,13 @@ export default class App extends React.Component {
         quantidade: 1,
         subTotal: existeProduto.value,
       }
-      novoCarrinho = [novoProduto, ...novoCarrinho]; 
+      novoCarrinho = [novoProduto, ...novoCarrinho];
     } else {
       novoCarrinho = novoCarrinho.map((item) => {
         if (id === item.id) {
           return {
             ...item,
-            quantidade: item.quantidade + 1, 
+            quantidade: item.quantidade + 1,
             subTotal: item.value + item.subTotal,
           }
         } else {
@@ -169,25 +169,26 @@ export default class App extends React.Component {
             <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
             <p><strong>Produto:</strong>{p.nome}</p>
             <p><strong>Total:</strong>R$ {p.subTotal} </p>
-            <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
+            <p onClick={() => { this.excluirItem(p) }}> <DeletarItem>Deletar</DeletarItem> </p>
           </CaixaProduto>
-
         )
       })
       return itensDoCarrinho;
     }
     return (
       <main>
-        <BotaoComprar onClick={this.aoClicarNoCarrinho}/>
+        {/* <BotaoComprar onClick={this.aoClicarNoCarrinho}/> */}
         <DivFiltro>
-          <h3>Filtros:</h3>
-          <label>Valor minimo</label>
-          <InputMinimo type="number" value="teste" />
+          <h3>FILTROS:</h3>
+          <label>Valor Minimo</label>
+          <InputMinimo type="number"/>
+          <label>Valor Máximo:</label>
+          <InputMinimo type="number"/>
           <label>Buscar Produto</label>
-          <InputProduto type="text" />
+          <InputBuscarProduto type="text" />
         </DivFiltro>
 
-        <h3>Quantidade {tamanhoProdutos}</h3>
+
         {this.state.produtos.map(p => {
           return (
 
@@ -196,9 +197,7 @@ export default class App extends React.Component {
                 <img src={p.imageUrl} />
                 <p>{p.nome}</p>
                 <p>R${p.value}</p>
-
                 <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
-
               </CaixaImagem>
             </DivProdutos>
           )
