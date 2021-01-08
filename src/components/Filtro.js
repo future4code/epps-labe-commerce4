@@ -18,15 +18,17 @@ const InputBuscarProduto = styled.input`
 
 class Filtro extends React.Component {
     render() {
+      
         return (
             <DivFiltro>
                 <h3>FILTROS:</h3>
                 <label>Valor Minimo</label>
-                <InputMinimo type="number" />
+                <InputMinimo type="number" onChange={this.props.onChangeValorMin}/>
                 <label>Valor Máximo:</label>
-                <InputMinimo type="number" />
+                <InputMinimo type="number" onChange={this.props.onChangeValorMax}/>
                 <label>Buscar Produto</label>
-                <InputBuscarProduto type="text" />
+                <InputBuscarProduto type="text" onChange={this.props.onChangeValorBusca}/>
+                <h3>Quantidade :{this.props.tamanhoProdutos}</h3>
             </DivFiltro>
         )
     }
