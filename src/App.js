@@ -166,6 +166,7 @@ export default class App extends React.Component {
 
     
 
+
     // const exibirCarrinho = () => {
     //   const itensDoCarrinho = this.state.carrinho.map((p) => {
     //     return (
@@ -180,8 +181,55 @@ export default class App extends React.Component {
     //   })
     //   return itensDoCarrinho;
     // }
+
+    const exibirCarrinho = () => {
+      const itensDoCarrinho = this.state.carrinho.map((p) => {
+        return (
+          <CaixaProduto>
+            <p> <strong>Quantidade:</strong>{p.quantidade}x</p>
+            <p><strong>Produto:</strong>{p.nome}</p>
+            <p><strong>Total:</strong>R$ {p.subTotal} </p>
+            <p onClick={()=>{this.excluirItem(p)}}> <DeletarItem>Deletar</DeletarItem> </p>
+          </CaixaProduto>
+
+        )
+      })
+      return itensDoCarrinho;
+    }
+
+    const filtrarProdutos = () => {
+      let listaFiltrada
+      if (this.state.valorBuscaInput !== "") {
+        listaFiltrada = this.state.produtos.filter((p) => {
+          const novoNome = p.nome.toLowerCase();
+          const input = this.state.valorBuscaInput.toLowerCase();
+          if (novoNome.includes(input)) {
+            return true
+          } else {
+            return false
+          }
+        })
+      } else if ((this.state.valorMaxInput !== "") || (this.state.valorMinInput !== "")) {
+        listaFiltrada = this.state.produtos.filter((p) => {
+          if ((p.value >= this.state.valorMinInput) && (p.value <= this.state.valorMaxInput)) {
+            return true
+          } else {
+            return false
+          }
+        })
+  
+      } else {
+        listaFiltrada = this.state.produtos
+  
+      }
+      console.log(listaFiltrada)
+      return listaFiltrada
+    };
+  
+
     return (
       <main>
+
         <Filtro
           filtrarProdutos={this.filtrarProdutos}
         />
