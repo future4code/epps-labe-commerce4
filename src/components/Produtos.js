@@ -36,6 +36,7 @@ class Produtos extends React.Component {
                 </div>
             )
         })
+        
         return (
             <div>
                 {listaProdutos}

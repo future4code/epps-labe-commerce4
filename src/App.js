@@ -4,6 +4,15 @@ import styled from 'styled-components';
 import Filtro from './components/Filtro'
 import Carrinho from './components/Carrinho';
 import Produtos from './components/Produtos';
+import Imagem1 from '../src/img/img1.jpg';
+import Imagem2 from '../src/img/img2.jpg';
+import Imagem3 from '../src/img/img3.jpg';
+import Imagem4 from '../src/img/img4.jpg';
+import Imagem5 from '../src/img/img5.jpg';
+import Imagem6 from '../src/img/img6.jpg';
+import Imagem7 from '../src/img/img7.jpg';
+import Imagem8 from '../src/img/img8.jpg';
+
 
 const ContainerProdutos = styled.div`
   width: 70%;
@@ -21,70 +30,84 @@ const CaixaProduto = styled.div`
   margin:10px;
 `
 const BotaoCompra = styled.button`
-width: 200px;
-
+  width: 200px;
   height: 40px;
   background-color: black;
   color: white;
 `
 const BotaoMostrarCarrinho = styled.button`
-width: 200px;
+  width: 200px;
   height: 40px;
   background-color: black;
   color: white;
   position: absolute;
   bottom:0;
   right:0;
-
 `
 export default class App extends React.Component {
   state = {
     produtos: [{
       id: 1,
-      nome: "teste1",
-      value: 85,
+      nome: "Avanhandava",
+      value: 1200,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/3/200/200"
+      imageUrl: Imagem1
     },
     {
       id: 2,
-      nome: "teste2",
-      value: 85,
+      nome: "Buritizal",
+      value: 3000,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/2/200/200"
+      imageUrl: Imagem2
     },
     {
       id: 3,
-      nome: "teste3",
-      value: 150,
+      nome: "Campos Sales",
+      value: 1500,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/5/200/200"
+      imageUrl: Imagem3
     }, {
       id: 4,
-      nome: "teste4",
-      value: 200,
+      nome: "Conquista",
+      value: 1800,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/9/200/200"
+      imageUrl: Imagem4
     },
     {
       id: 5,
-      nome: "teste5",
-      value: 20,
+      nome: "Hermenegildo",
+      value: 5000,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/4/200/200"
+      imageUrl: Imagem5
     },
     {
       id: 6,
-      nome: "teste6",
-      value: 40,
+      nome: "Iguaraçu",
+      value: 2300,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/6/200/200"
+      imageUrl: Imagem6
+    },
+    {
+      id: 7,
+      nome: "Ipiranga",
+      value: 4200,
+      quantidade: 0,
+      subTotal: 0,
+      imageUrl: Imagem7
+    },
+    {
+      id: 8,
+      nome: "Itapicurú-Mirim",
+      value: 5000,
+      quantidade: 0,
+      subTotal: 0,
+      imageUrl: Imagem8
     },
     ],
     carrinho: [],
