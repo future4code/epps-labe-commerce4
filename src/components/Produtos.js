@@ -18,14 +18,15 @@ const BotaoCompra = styled.button`
   color: white;
 `
 
+
 class Produtos extends React.Component {
     render() {
-      const tamanhoProdutos = this.props.produtos.length
-        console.log(this.props.selecionarProduto)
+      
+  
         const listaProdutos = this.props.produtos.map(p => {
             return (
               <div>
-                <h3>Quantidade {tamanhoProdutos}</h3>
+                <h3>Quantidade {this.props.tamanhoProdutos}</h3>
                 <CaixaImagem>
                     <img src={p.imageUrl} />
                     <p>{p.nome}</p>
