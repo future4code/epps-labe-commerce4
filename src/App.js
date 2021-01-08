@@ -4,87 +4,101 @@ import styled from 'styled-components';
 import Filtro from './components/Filtro'
 import Carrinho from './components/Carrinho';
 import Produtos from './components/Produtos';
+import Imagem1 from '../src/img/img1.jpg';
+import Imagem2 from '../src/img/img2.jpg';
+import Imagem3 from '../src/img/img3.jpg';
+import Imagem4 from '../src/img/img4.jpg';
+import Imagem5 from '../src/img/img5.jpg';
+import Imagem6 from '../src/img/img6.jpg';
+
+
 
 const ContainerProdutos = styled.div`
   width: 70%;
   display:flex;
   flex-wrap:wrap;
-  border: 1px solid black;
   padding: 10px;
 `
 const CaixaProduto = styled.div`
- 
   width: 200px;
-  height: 350px;
+  height: 300px;
   border: 1px dotted black;
-  padding: 10px;
+  padding: 20px 15px 15px 15px;
   margin:10px;
+  background-color: black;
+  color: white;
+  border-radius: 1%;
 `
 const BotaoCompra = styled.button`
-width: 200px;
-
+  width: 200px;
   height: 40px;
-  background-color: black;
+  background-color: grey;
   color: white;
 `
 const BotaoMostrarCarrinho = styled.button`
-width: 200px;
-  height: 40px;
-  background-color: black;
-  color: white;
+  background-color: transparent;
   position: absolute;
   bottom:0;
   right:0;
+  border: none;
+`
+
+const IconeCarrinho = styled.img`
+  margin: auto;
+  align-self: center;
+  width: 100px;
+  object-fit: none;
 
 `
+
 export default class App extends React.Component {
   state = {
     produtos: [{
       id: 1,
-      nome: "teste1",
-      value: 85,
+      nome: "Avanhandava",
+      preco: 1200,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/3/200/200"
+      imagem: Imagem1
     },
     {
       id: 2,
-      nome: "teste2",
-      value: 85,
+      nome: "Buritizal",
+      preco: 3000,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/2/200/200"
+      imagem: Imagem2
     },
     {
       id: 3,
-      nome: "teste3",
-      value: 150,
+      nome: "Campos Sales",
+      preco: 1500,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/5/200/200"
+      imagem: Imagem3
     }, {
       id: 4,
-      nome: "teste4",
-      value: 200,
+      nome: "Conquista",
+      preco: 1800,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/9/200/200"
+      imagem: Imagem4
     },
     {
       id: 5,
-      nome: "teste5",
-      value: 20,
+      nome: "Hermenegildo",
+      preco: 5000,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/4/200/200"
+      imagem: Imagem5
     },
     {
       id: 6,
-      nome: "teste6",
-      value: 40,
+      nome: "Iguaraçu",
+      preco: 2300,
       quantidade: 0,
       subTotal: 0,
-      imageUrl: "https://picsum.photos/id/6/200/200"
+      imagem: Imagem6
     },
     ],
     carrinho: [],
@@ -93,31 +107,29 @@ export default class App extends React.Component {
     valorMaxInput: Infinity,
     valorBuscaInput: "",
   }
-  onChangeValorMin = (e) => {
-    if(e.target.value>0){
+  valorMinimo = (e) => {
+    if (e.target.preco > 0) {
 
       this.setState({
-        valorMinInput: Number(e.target.value)
+        valorMinInput: Number(e.target.preco)
       })
     }
-    console.log(this.state.valorMinInput)
   }
-  onChangeValorMax = (e) => {
-    if(e.target.value>0){
-
+  valorMaximo = (e) => {
+    if (e.target.preco > 0) {
+      this.setState({
+        valorMaxInput: Number(e.target.preco)
+      });
+    }
+  }
+  valorBusca = (e) => {
     this.setState({
-      valorMaxInput: Number(e.target.value)
+      valorBuscaInput: e.target.preco
     });
   }
-  }
-  onChangeValorBusca = (e) => {
+  mudarFiltro = (e) => {
     this.setState({
-      valorBuscaInput: e.target.value
-    });
-  }
-  onChangeFiltro = (e) => {
-    this.setState({
-      filtro: e.target.value
+      filtro: e.target.preco
     });
   }
   excluirItem = (item) => {
@@ -126,9 +138,11 @@ export default class App extends React.Component {
     });
     this.setState({ carrinho: listaProdutos });
   };
+
   aoClicarNoCarrinho = () => {
     this.setState({ carrinhoMostrar: !this.state.carrinhoMostrar });
   };
+
   selecionarProduto = (id) => {
     let novoCarrinho = [...this.state.carrinho]
     const existeProduto = this.state.produtos.find((p) => {
@@ -147,7 +161,7 @@ export default class App extends React.Component {
       const novoProduto = {
         ...existeProduto,
         quantidade: 1,
-        subTotal: existeProduto.value,
+        subTotal: existeProduto.preco,
       }
       novoCarrinho = [novoProduto, ...novoCarrinho];
     } else {
@@ -156,7 +170,7 @@ export default class App extends React.Component {
           return {
             ...item,
             quantidade: item.quantidade + 1,
-            subTotal: item.value + item.subTotal,
+            subTotal: item.preco + item.subTotal,
           }
         } else {
           return item
@@ -187,7 +201,7 @@ export default class App extends React.Component {
         })
       } else if ((this.state.valorMaxInput !== "") || (this.state.valorMinInput !== "")) {
         listaFiltrada = this.state.produtos.filter((p) => {
-          if ((p.value >= this.state.valorMinInput) && (p.value <= this.state.valorMaxInput)) {
+          if ((p.preco >= this.state.valorMinInput) && (p.preco <= this.state.valorMaxInput)) {
             return true
           } else {
             return false
@@ -196,29 +210,28 @@ export default class App extends React.Component {
       } else {
         listaFiltrada = this.state.produtos
       }
-      console.log(listaFiltrada)
       return listaFiltrada
     };
     const tamanhoProdutos = this.state.produtos.length
+
     return (
       <main>
         <Filtro
           tamanhoProdutos={tamanhoProdutos}
-          onChangeValorMin={this.onChangeValorMin}
-          onChangeValorMax={this.onChangeValorMax}
-          onChangeValorBusca={this.onChangeValorBusca}
+          valorMinimo={this.valorMinimo}
+          valorMaximo={this.valorMaximo}
+          valorBusca={this.valorBusca}
         />
-        
         <ContainerProdutos>
           {(this.state.valorBuscaInput !== "" || this.state.valorMaxInput > 0 || this.state.valorMinInput > 0) ?
 
             filtrarProdutos().map(p => {
               return (
                 <CaixaProduto>
-                  <img src={p.imageUrl} />
+                  <img src={p.imagem} />
                   <p>{p.nome}</p>
-                  <p>R${p.value}</p>
-                  <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar carinho</BotaoCompra>
+                  <p>R${p.preco}</p>
+                  <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carrinho</BotaoCompra>
                 </CaixaProduto>
               )
             })
@@ -228,7 +241,6 @@ export default class App extends React.Component {
               selecionarProduto={this.selecionarProduto}
             />
           }
-
         </ContainerProdutos>
 
         {this.state.carrinhoMostrar && (
@@ -240,9 +252,12 @@ export default class App extends React.Component {
             totalCarrinho={this.totalCarrinho}
           />)
         }
-        <BotaoMostrarCarrinho onClick={() => this.setState({ carrinhoMostrar: !this.state.carrinhoMostrar })}>Mostrar carrinho</BotaoMostrarCarrinho>
-
+        <BotaoMostrarCarrinho onClick={() => this.setState({ carrinhoMostrar: !this.state.carrinhoMostrar })}>
+          <IconeCarrinho src="https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png" />
+        </BotaoMostrarCarrinho>
       </main>
+
     )
   }
 }
+
