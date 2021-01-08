@@ -1,37 +1,17 @@
 import React from 'react';
 import './App.css';
 import styled from 'styled-components';
+import Filtro from './components/Filtro'
 import Carrinho from './components/Carrinho';
 import Produtos from './components/Produtos';
-import Filtro from './components/Filtro'
 
-const DivCarrinho = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    width: 800px;
-    height: 600px;
-    border: 1px dotted black;
-`
-const DeletarItem =  styled.button`
-  width: 50px;
-  height: 20px;
-`
 
-const CaixaProduto = styled.div`
-  text-align: center;
-  width: 200px;
-  height: 200px;
-  border-style: dotted;
-  border-width: 0px 0px 2px 0px; /* 25px top, 10px right, 4px bottom and 35px left */
-`
-
-const BotaoComprar = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  background-color: red;
-`
+// const BotaoComprar = styled.div`
+//   width: 100px;
+//   height: 100px;
+//   border: 1px solid black;
+//   background-color: red;
+// `
 
 export default class App extends React.Component {
 
@@ -41,7 +21,7 @@ export default class App extends React.Component {
       nome: "teste1",
       value: 85,
       quantidade: 0,
-      subTotal:0,
+      subTotal: 0,
       imageUrl: "https://picsum.photos/id/3/200/200"
     },
     {
@@ -49,7 +29,7 @@ export default class App extends React.Component {
       nome: "teste2",
       value: 85,
       quantidade: 0,
-      subTotal:0,
+      subTotal: 0,
       imageUrl: "https://picsum.photos/id/2/200/200"
     },
     {
@@ -57,12 +37,40 @@ export default class App extends React.Component {
       nome: "teste3",
       value: 150,
       quantidade: 0,
-      subTotal:0,
+      subTotal: 0,
       imageUrl: "https://picsum.photos/id/5/200/200"
     },
-    ], 
+    ],
     carrinho: [],
-    carrinhoMostrar: false
+    carrinhoMostrar: false,
+    valorMinInput: 0,
+    valorMaxInput: Infinity,
+    valorBuscaInput: "",
+  }
+
+  onChangeValorMin = (e) => {
+    this.setState({
+      valorMinInput: Number(e.target.value)
+    })
+    console.log(this.state.valorMinInput)
+  }
+
+  onChangeValorMax = (e) => {
+    this.setState({
+      valorMaxInput: Number(e.target.value)
+    });
+    console.log(this.state.valorMaxInput)
+  }
+
+  onChangeValorBusca = (e) => {
+    this.setState({
+      valorBuscaInput: e.target.value
+    });
+  }
+  onChangeFiltro = (e) => {
+    this.setState({
+      filtro: e.target.value
+    });
   }
 
   excluirItem = (item) => {
@@ -102,13 +110,13 @@ export default class App extends React.Component {
         quantidade: 1,
         subTotal: existeProduto.value,
       }
-      novoCarrinho = [novoProduto, ...novoCarrinho]; 
+      novoCarrinho = [novoProduto, ...novoCarrinho];
     } else {
       novoCarrinho = novoCarrinho.map((item) => {
         if (id === item.id) {
           return {
             ...item,
-            quantidade: item.quantidade + 1, 
+            quantidade: item.quantidade + 1,
             subTotal: item.value + item.subTotal,
           }
         } else {
@@ -127,7 +135,36 @@ export default class App extends React.Component {
     return total
   }
   render() {
-    const tamanhoProdutos = this.state.produtos.length
+
+
+    const filtrarProdutos = () => {
+      let listaFiltrada
+      if (this.state.valorBuscaInput !== "") {
+        listaFiltrada = this.state.produtos.filter((p) => {
+          const novoNome = p.nome.toLowerCase();
+          const input = this.state.valorBuscaInput.toLowerCase();
+          if (novoNome.includes(input)) {
+            return true
+          } else {
+            return false
+          }
+        })
+      } else if ((this.state.valorMaxInput !== "") || (this.state.valorMinInput !== "")) {
+        listaFiltrada = this.state.produtos.filter((p) => {
+          if ((p.value >= this.state.valorMinInput) && (p.value <= this.state.valorMaxInput)) {
+            return true
+          } else {
+            return false
+          }
+        })
+      } else {
+        listaFiltrada = this.state.produtos
+      }
+      console.log(listaFiltrada)
+      return listaFiltrada
+    };
+
+    
 
     // const exibirCarrinho = () => {
     //   const itensDoCarrinho = this.state.carrinho.map((p) => {
@@ -145,45 +182,34 @@ export default class App extends React.Component {
     // }
     return (
       <main>
-        {/* <BotaoComprar onClick={this.aoClicarNoCarrinho}/> */}
-        {/* <DivFiltro>
-          <h3>FILTROS:</h3>
-          <label>Valor Minimo</label>
-          <InputMinimo type="number"/>
-          <label>Valor Máximo:</label>
-          <InputMinimo type="number"/>
-          <label>Buscar Produto</label>
-          <InputBuscarProduto type="text" />
-        </DivFiltro> */}
-
-        <h3>Quantidade {tamanhoProdutos}</h3>
-        {/* {this.state.produtos.map(p => {
-          return (
-
-            // <DivProdutos>
-            //   <CaixaImagem>
-            //     <img src={p.imageUrl} />
-            //     <p>{p.nome}</p>
-            //     <p>R${p.value}</p>
-
-            //     <BotaoCompra onClick={() => this.selecionarProduto(p.id)}>Adicionar ao carinho</BotaoCompra>
-
-            //   </CaixaImagem>
-            // </DivProdutos>
-          )
-        })} */}
-        {/* {this.state.carrinhoMostrar&&(
-          <DivCarrinho>
-            {exibirCarrinho()}
-            <p>Total: {this.totalCarrinho()}</p>
-          </DivCarrinho>
-        )} */}
-      <Carrinho/>
-      <Produtos
+        <Filtro
+          filtrarProdutos={this.filtrarProdutos}
+        />
+        <Produtos
           produtos={this.state.produtos}
           selecionarProduto={this.selecionarProduto}
-      />
-      <Filtro/>
+        />
+        <Carrinho
+          produtos={this.state.produtos}
+          carrinho={this.state.carrinho}
+          excluirItem={this.excluirItem}
+          exibirCarrinho={this.exibirCarrinho}
+          totalCarrinho={this.totalCarrinho}
+        />
+
+
+
+      {filtrarProdutos().map(p => {
+          return (
+              <div>
+                <img src={p.imageUrl} />
+                <p>{p.nome}</p>
+                <p>R${p.value}</p>
+                <button onClick={() => this.selecionarProduto(p.id)}>Adicionar carinho</button>
+              </div>
+          )
+        })}
+
       </main>
     )
   }

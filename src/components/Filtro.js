@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const DivFiltro = styled.div`
-  width: 50%;
+  width: 200px;
   height: 500px;
   border: 1px solid black;
   padding: 10px;
