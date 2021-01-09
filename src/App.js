@@ -108,28 +108,27 @@ export default class App extends React.Component {
     valorBuscaInput: "",
   }
   valorMinimo = (e) => {
-    if (e.target.preco > 0) {
-
+    if (e.target.value > 0) {
       this.setState({
-        valorMinInput: Number(e.target.preco)
+        valorMinInput: Number(e.target.value)
       })
     }
   }
   valorMaximo = (e) => {
-    if (e.target.preco > 0) {
+    if (e.target.value > 0) {
       this.setState({
-        valorMaxInput: Number(e.target.preco)
+        valorMaxInput: Number(e.target.value)
       });
     }
   }
   valorBusca = (e) => {
     this.setState({
-      valorBuscaInput: e.target.preco
+      valorBuscaInput: e.target.value
     });
   }
   mudarFiltro = (e) => {
     this.setState({
-      filtro: e.target.preco
+      filtro: e.target.value
     });
   }
   excluirItem = (item) => {
@@ -223,7 +222,7 @@ export default class App extends React.Component {
           valorBusca={this.valorBusca}
         />
         <ContainerProdutos>
-          {(this.state.valorBuscaInput !== "" || this.state.valorMaxInput > 0 || this.state.valorMinInput > 0) ?
+          {(this.state.valorBuscaInput === "" || this.state.valorMaxInput > 0 || this.state.valorMinInput > 0) ?
 
             filtrarProdutos().map(p => {
               return (
